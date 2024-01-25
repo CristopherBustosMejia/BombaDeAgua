@@ -1,22 +1,28 @@
+//Libraries
 #include <WiFi.h>
 #include <HTTPClient.h>
 
+//IO Pins
 #define trigger 4
 
-const char* ssid = "ESP32";
-const char* pass = "Cristo3103";
+//Wifi name and password
+const char* ssid = "YOUR_SSID"; 
+const char* pass = "YOUR_PASSWORD"; 
+//Address to consume actions, if you don't change anything on the server begin the default IP: 192.168.4.1
 const char* turnON = "http://192.168.4.1/deviceON";
 const char* turnOFF = "http://192.168.4.1/deviceOFF";
 
-bool flag = false;
-
-String answer;
+//Variables
+bool flag = false; //Boolean flag to control number of request
+String answer; //Variable to give an answer to the client
 
 void setup() {
+  //Init Serial 
   Serial.begin(115200);
   delay(50);
+  //Init IO Pins
   pinMode(trigger,INPUT_PULLDOWN);
-
+  //Init Wifi
   WiFi.begin(ssid,pass);
   Serial.println("Connecting");
   while(WiFi.status() != WL_CONNECTED){
@@ -43,6 +49,7 @@ void loop() {
   }
 }
 
+//Function to consume a GET request
 String getRequest(const char* URL){
   HTTPClient http;
   http.begin(URL);
